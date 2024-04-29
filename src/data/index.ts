@@ -18,8 +18,8 @@ const youtubeListVideo: IVideoId[] = [
     videoId: "ZQeSeYNEwHM",
   },
   {
-    id: "BB49x_uMlGA",
-    videoId: "BB49x_uMlGA",
+    id: "dlx8TanWFys",
+    videoId: "dlx8TanWFys",
   },
   {
     id: "FSzh981zcqQ",

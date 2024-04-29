@@ -9,7 +9,7 @@ const HomeScreen = (props: PropsWithStore<PropsWithChildren>) => {
 
   useEffect(() => {
     videoStore.updateCurrentVideoList();
-    offlineDownload.getCachedData();
+    // offlineDownload.getCachedData();
   }, []);
 
   return (

@@ -22,7 +22,6 @@ const DownloadedVideo = (props: PropsWithStore<PropsWithChildren>) => {
 
   useEffect(() => {
     videoPlayerStore.getLocalVideos();
-    offlineDownload.getCachedData();
   }, []);
 
   const navigateToVideoPlayer = (item) => {
@@ -71,6 +70,8 @@ const DownloadedVideo = (props: PropsWithStore<PropsWithChildren>) => {
         keyExtractor={(item, index) => item.videoId}
         renderItem={({ item }) => renderItem(item)}
         ListEmptyComponent={noOffLineVideoAvailable}
+        extraData={offlineDownload.metaData}
+        refreshing={offlineDownload.isVideoDownloading}
       />
     </View>
   );

@@ -56,32 +56,26 @@ const VideoDetails = (
     );
   };
 
-  const toastMessage = () => {
-    return Toast.show({
-      type: "info",
-      text1: "Downloading Completed",
-      position: "top",
-      autoHide: true,
-      onPress: () => Toast.hide(),
-    });
-  };
-
-  const showToastMessage = () => {
-    if (offlineDownload.isDownloadingCompleted) {
-      return toastMessage();
-    } else {
-      return null;
-    }
-  };
   const downloadItem = async () => {
+    // await ReactNativeBlobUtil.fs.unlink(
+    //   ReactNativeBlobUtil.fs.dirs.DocumentDir + "/meta.json"
+    // );
     if (route.params.videoId.isDownloaded) {
       return null;
     } else {
       const videoMetaData = videoStore.videoPlayList.filter((item) => {
-        if (item.videoId === route.params.videoId.videoId) {
+        if (
+          item.videoId ===
+          (route.params.videoId.videoId || route.params.videoId)
+        ) {
           return item;
         }
       });
+
+      console.log("====================================");
+      console.log(videoMetaData);
+      console.log("====================================");
+
       if (offlineDownload.isVideoDownloading) {
         offlineDownload.cancelCurrentDownloadingTask(videoMetaData[0].videoId);
       } else {
@@ -95,7 +89,7 @@ const VideoDetails = (
       <AppHeader />
       <View style={{ marginHorizontal: 8, marginTop: 8 }}>
         <RNVideo
-          videoId={route.params.videoId.videoId}
+          videoId={route.params.videoId.videoId || route.params.videoId}
           height={videoPlayerStore.isPlaying ? 260 : 180}
           play={videoPlayerStore.isPlaying}
           initialPlayerParams={{ rel: false }}
@@ -139,10 +133,9 @@ const VideoDetails = (
           renderItem={({ item }) => renderSimilarVideo(item)}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={() => <View style={{ paddingBottom: "90%" }} />}
+          contentContainerStyle={{ paddingBottom: "50%" }}
         />
       </View>
-
-      {showToastMessage()}
     </View>
   );
 };

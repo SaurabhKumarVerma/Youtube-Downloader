@@ -27,7 +27,7 @@ const VideoList = (props: PropsWithStore<PropsWithChildren>) => {
     videoStore.resetSimilarVideoList();
 
     let timeout = setTimeout(() => {
-      // videoStore.downloadAllItemsInBatches(1);
+      // videoStore.downloadAllItemsInBatches(videoStore.batchSize);
     }, 9000);
 
     return () => {
@@ -79,6 +79,7 @@ const VideoList = (props: PropsWithStore<PropsWithChildren>) => {
               keyExtractor={(item, index) => item.id}
               renderItem={({ item }) => renderVideo(item)}
               showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: "50%" }}
             />
           </>
         )}

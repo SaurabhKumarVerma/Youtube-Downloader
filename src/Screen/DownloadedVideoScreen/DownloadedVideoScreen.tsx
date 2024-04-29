@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { PropsWithChildren, useEffect, useRef } from "react";
 import DownloadedVideo from "../../Component/DownloadedVideo/DownloadedVideo";
+import { PropsWithStore } from "../../store/RootStore";
+import { inject, observer } from "mobx-react";
 
-const DownloadedVideoScreen = () => {
+const DownloadedVideoScreen = (props: PropsWithStore<PropsWithChildren>) => {
   return (
     <View>
       <DownloadedVideo />
@@ -10,6 +12,6 @@ const DownloadedVideoScreen = () => {
   );
 };
 
-export default DownloadedVideoScreen;
+export default inject("rootStore")(observer(DownloadedVideoScreen));
 
 const styles = StyleSheet.create({});

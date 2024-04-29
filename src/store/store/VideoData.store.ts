@@ -141,7 +141,7 @@ export class VideoStore {
     let data = this.videoPlayList;
     const updatedSimilarList = _.filter(
       data,
-      (videos: IVideoInfo) => videos.videoId !== id
+      (videos: IVideoInfo) => (videos.videoId || videos.videoId.videoId) !== id
     );
 
     const mergedArray = _.map(updatedSimilarList, (obj) => {
@@ -155,7 +155,7 @@ export class VideoStore {
         return _.assign({}, obj, { isDownloaded: true });
       }
     });
-    this.similarVideos = mergedArray;
+    this.similarVideos = updatedSimilarList;
   }
 
   /**
