@@ -24,7 +24,7 @@ export class VideoStore {
   @observable similarVideos: IVideoInfo[] = undefined;
   @observable autoDownloadConfig: StatefulPromise<FetchBlobResponse>;
   @observable updatedPlayList: IDownloadedVideo[] = undefined;
-  @observable batchSize: number = 2; // Auto Download Per Batch
+  @observable batchSize: number = 1; // Auto Download Per Batch
   @observable isInitialized = false;
 
   /**
@@ -261,6 +261,7 @@ export class VideoStore {
             this.updatedPlayList[i],
             response.data
           );
+          this.rootStore.offlineDownload.getCachedData();
         })
         .catch((error) => {
           console.log("error while auto download", error);

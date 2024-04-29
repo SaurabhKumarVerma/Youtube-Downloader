@@ -5,11 +5,12 @@ import { inject, observer } from "mobx-react";
 import { PropsWithStore } from "../../store/RootStore";
 
 const HomeScreen = (props: PropsWithStore<PropsWithChildren>) => {
-  const { offlineDownload, videoStore } = props.rootStore;
+  const { offlineDownload, videoStore, videoPlayerStore } = props.rootStore;
 
   useEffect(() => {
     videoStore.updateCurrentVideoList();
-    // offlineDownload.getCachedData();
+    videoPlayerStore.getLocalVideos();
+    offlineDownload.getCachedData();
   }, []);
 
   return (

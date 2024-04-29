@@ -17,7 +17,7 @@ import {
 } from "../../types/interface/youtubeList.interface";
 import _ from "lodash";
 import { EVIDEOQUALITY } from "../../types/VideoQuality.interface";
-import { PermissionsAndroid } from "react-native";
+import { Alert, PermissionsAndroid } from "react-native";
 export class OfflineVideoStore {
   rootStore: typeof RootStore;
   @observable isVideoDownloading: boolean = false;
@@ -191,18 +191,27 @@ export class OfflineVideoStore {
     } else {
       // Iterate through the updated metadata and add each item to the metadata array
 
-      _.forEach(updated, (item) => {
-        const { id, isDownloaded, path, thumbnail_Link, videoId, video_Title } =
-          item;
-        this.metaData.push({
-          id,
-          isDownloaded,
-          path,
-          thumbnail_Link,
-          videoId,
-          video_Title,
-        });
-      });
+      _.uniqBy(
+        _.forEach(updated, (item) => {
+          const {
+            id,
+            isDownloaded,
+            path,
+            thumbnail_Link,
+            videoId,
+            video_Title,
+          } = item;
+          this.metaData.push({
+            id,
+            isDownloaded,
+            path,
+            thumbnail_Link,
+            videoId,
+            video_Title,
+          });
+        }),
+        "videoId"
+      );
     }
   }
 
@@ -252,18 +261,25 @@ export class OfflineVideoStore {
   async downloadVideo(item: IVideoInfo) {
     this.setDownloading(true);
     this.isDownloadingCompleted = false;
-    const result = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-    if (result) {
+    const result = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    );
+    if (result === "granted") {
       this.downloadVideoFile(item)
         .then((res) => {
+          console.log("res", res);
+
           this.storeMetaData(item, res.data);
           this.setDownloading(false);
           this.isDownloadingCompleted = true;
+          this.getCachedData();
         })
         .catch((error) => {
           this.setDownloading(false);
           console.log("error", error);
         });
+    } else {
+      Alert.alert("Permission Denied");
     }
   }
 

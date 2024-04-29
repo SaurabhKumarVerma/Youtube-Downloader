@@ -72,10 +72,6 @@ const VideoDetails = (
         }
       });
 
-      console.log("====================================");
-      console.log(videoMetaData);
-      console.log("====================================");
-
       if (offlineDownload.isVideoDownloading) {
         offlineDownload.cancelCurrentDownloadingTask(videoMetaData[0].videoId);
       } else {

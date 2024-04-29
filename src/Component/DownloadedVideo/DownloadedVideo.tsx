@@ -6,23 +6,20 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren } from "react";
 import { inject, observer } from "mobx-react";
 import { PropsWithStore } from "../../store/RootStore";
 import SimilarVideoList from "../Video/SimilarVideoList";
-import { IVideoInfo } from "../../types/interface/youtubeList.interface";
+import { IDownloadedVideo } from "../../types/interface/youtubeList.interface";
 import AppHeader from "../../Base/AppHeader";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenName } from "../../navigation/ScreenName/Screen";
+import _ from "lodash";
 
 const DownloadedVideo = (props: PropsWithStore<PropsWithChildren>) => {
   const { videoPlayerStore, offlineDownload } = props.rootStore;
   const { width } = useWindowDimensions();
   const { navigate } = useNavigation();
-
-  useEffect(() => {
-    videoPlayerStore.getLocalVideos();
-  }, []);
 
   const navigateToVideoPlayer = (item) => {
     navigate(ScreenName.OFFLINE_VIDEO_PLAYBACK_SCREEN, {
@@ -30,7 +27,7 @@ const DownloadedVideo = (props: PropsWithStore<PropsWithChildren>) => {
     });
   };
 
-  const renderItem = (item: IVideoInfo) => {
+  const renderItem = (item: IDownloadedVideo) => {
     return (
       <TouchableOpacity
         onPress={() => navigateToVideoPlayer(item)}
@@ -66,7 +63,7 @@ const DownloadedVideo = (props: PropsWithStore<PropsWithChildren>) => {
     <View style={{ marginHorizontal: 8 }}>
       <AppHeader />
       <FlatList
-        data={offlineDownload.metaData}
+        data={_.uniqBy(offlineDownload.metaData, "videoId")}
         keyExtractor={(item, index) => item.videoId}
         renderItem={({ item }) => renderItem(item)}
         ListEmptyComponent={noOffLineVideoAvailable}

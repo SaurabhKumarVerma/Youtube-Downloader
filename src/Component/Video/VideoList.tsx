@@ -27,7 +27,7 @@ const VideoList = (props: PropsWithStore<PropsWithChildren>) => {
     videoStore.resetSimilarVideoList();
 
     let timeout = setTimeout(() => {
-      videoStore.downloadAllItemsInBatches(videoStore.batchSize);
+      // videoStore.downloadAllItemsInBatches(videoStore.batchSize);
     }, 9000);
 
     return () => {
