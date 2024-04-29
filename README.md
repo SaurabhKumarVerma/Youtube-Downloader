@@ -3,7 +3,8 @@ This is a new Market Place project, [`@react-native-community/cli`](https://gith
 ## Clone project
 
 ```bash
-[Github Project Link](https://github.com/SaurabhKumarVerma/Youtube-Downloader)
+- [Github Project Link](https://github.com/SaurabhKumarVerma/Youtube-Downloader)
+cd VideoDownloader
 ```
 
 ## Step 1: Install dependencies
